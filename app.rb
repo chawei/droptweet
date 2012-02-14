@@ -17,7 +17,7 @@ class App < Sinatra::Base
     timestamp = Time.now.to_i
     filename  = "#{timestamp}-#{params["tweet_file"][:filename]}"
     p "root: #{settings.root}"
-    File.open("#{settings.root}/tmp/#{filename}", "w") do |f|
+    File.open("/tmp/#{filename}", "w") do |f|
       f.write(data)
     end
 
@@ -33,7 +33,7 @@ class App < Sinatra::Base
 
     p filename
     p caption
-    f = File.open("#{settings.root}/tmp/#{filename}")
+    f = File.open("/tmp/#{filename}")
     data = f.read
     p Twitter.update_with_media(caption, data)
   end
