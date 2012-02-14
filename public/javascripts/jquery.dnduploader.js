@@ -39,8 +39,12 @@
 
         reader.onloadend = function(evt) {
           if (evt.target.readyState == FileReader.DONE) { // DONE == 2
-            var h = $('#dropped_image .thumb').height();
-            $('#progress_bar').css({width: '400px', height: h+'px'});
+            var img = new Image();
+            img.onload = function() { 
+              var h = Math.round(400 * img.height / img.width);  
+              $('#progress_bar').css({width: '400px', height: h+'px'});
+            };
+            img.src = $('#dropped_image img.thumb').attr('src');
             
             var xhr = new XMLHttpRequest();
             //var xhr = jQuery.ajaxSettings.xhr();
