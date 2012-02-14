@@ -1,29 +1,22 @@
 (function( $ ){
 
-  var util = {
-    dataURItoBlob : function(dataURI, callback) {
-      // convert base64 to raw binary data held in a string
-      // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-      var byteString = atob(dataURI.split(',')[1]);
-
-      // separate out the mime component
-      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-
-      // write the bytes of the string to an ArrayBuffer
-      var ab = new ArrayBuffer(byteString.length);
-      var ia = new Uint8Array(ab);
-      for (var i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i);
+  $("#send_btn").click(function(){
+    console.log($('#temp_filename').val());
+    console.log($('#tweet_caption').val());
+    $.ajax({
+      url: '/droptweet',
+      type: 'POST',
+      data: {
+        image_filename: $('#temp_filename').val(),
+        caption: $('#tweet_caption').val()
+      },
+      success: function(data) {
+        console.log("upload successfully");
       }
+    });
+  });
 
-      // write the ArrayBuffer to a blob, and you're done
-      if (!window.BlobBuilder && window.WebKitBlobBuilder)
-        window.BlobBuilder = window.WebKitBlobBuilder;
-      var bb = new BlobBuilder();
-      bb.append(ab);
-      return bb.getBlob(mimeString);
-    },
-
+  var util = {
     readAndRender : function(file) {
       if (file.type.match('image.*')) {
         var reader = new FileReader();
@@ -46,8 +39,8 @@
             };
             img.src = $('#dropped_image img.thumb').attr('src');
             
-            var xhr = new XMLHttpRequest();
-            //var xhr = jQuery.ajaxSettings.xhr();
+            //var xhr = new XMLHttpRequest();
+            var xhr = jQuery.ajaxSettings.xhr();
             var upload = xhr.upload;
           
             xhr.upload.addEventListener('progress', function (e) {
@@ -56,39 +49,53 @@
                   var width      = 400 - Math.round(proportion * 400);
                   console.log('width: ' + width);
                   $('#progress_bar').animate({width: width + 'px'});
+                  if (width == 0) {
+                    $('.caption_container').delay(500).fadeIn();
+                  }
                 }
               }, false);
             
             var provider = function () {
               return xhr;
             };
-            
+            /* 
             xhr.open('PUT', '/', true);
             xhr.setRequestHeader('X-Filename', file.fileName);
             xhr.send(file);
 
-            //var data = evt.target.result;
-            //data = data.substr(data.indexOf('base64') + 7); 
-            /*
+            xhr.onreadystatechange = function() {
+              if (xhr.readyState === 4) {
+                console.log("success");
+              }
+            };
+            */
+            var fd = new FormData();
+            fd.append('tweet_file', file);
+            fd.append('tweet_caption', "drop tweet");
+            
             $.ajax({
               type: 'PUT',
               url: '/',
               xhr: provider,
-              dataType: 'json',
+              cache: false,
+              contentType: false,
+              processData: false,
               success: function (data) {
-                console.log('success');
+                $('#temp_filename').val(data.temp_filename);
               },  
               error: function () {
                 // ...
-              },  
+              }, 
+              data: fd
+              /*
               data: {
                 name: file.name,
                 size: file.size,
                 type: file.type,
                 data: data 
-              }   
+              } 
+              */
             });
-            */
           }
         };
 

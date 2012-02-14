@@ -8,15 +8,30 @@ class App < Sinatra::Base
   end
 
   put '/' do
-    data = request.body.read
-   
-    #p params['data'] 
-    puts "uploaded #{env['HTTP_X_FILENAME']} - #{data.size} bytes"
-    
-    File.open('uploads/' + env['HTTP_X_FILENAME'], "w") do |f|
+    temp_file = params["tweet_file"][:tempfile]
+    temp_file = File.open(temp_file.path)
+    data = temp_file.read
+
+    timestamp = Time.now.to_i
+    filename  = "#{timestamp}-#{params["tweet_file"][:filename]}"
+    File.open('uploads/' + filename, "w") do |f|
       f.write(data)
     end
 
-    p Twitter.update_with_media('Tweet', File.open('uploads/' + env['HTTP_X_FILENAME']))
+    p params["tweet_caption"]
+   
+    content_type :json
+    { :temp_filename => filename }.to_json
+  end
+
+  post '/droptweet' do
+    filename = params["image_filename"]
+    caption  = params["caption"]
+
+    p filename
+    p caption
+    f = File.open('./uploads/' + filename)
+    data = f.read
+    p Twitter.update_with_media(caption, data)
   end
 end
