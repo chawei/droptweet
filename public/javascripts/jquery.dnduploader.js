@@ -58,11 +58,11 @@
             var provider = function () {
               return xhr;
             };
-            //xhr.open($this.data('method') || 'POST', $this.data('url'), true);
+            
             xhr.open('PUT', '/', true);
             xhr.setRequestHeader('X-Filename', file.fileName);
-            
             xhr.send(file);
+
             //var data = evt.target.result;
             //data = data.substr(data.indexOf('base64') + 7); 
             /*
