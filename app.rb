@@ -24,7 +24,7 @@ class App < Sinatra::Base
     p params["tweet_caption"]
    
     content_type :json
-    { :temp_filename => filename }.to_json
+    { :temp_filename => temp_file.path }.to_json
   end
 
   post '/droptweet' do
@@ -33,7 +33,7 @@ class App < Sinatra::Base
 
     p filename
     p caption
-    f = File.open("/app/tmp/#{filename}")
+    f = File.open("#{filename}")
     data = f.read
     p Twitter.update_with_media(caption, data)
   end
