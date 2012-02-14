@@ -34,8 +34,8 @@ class App < Sinatra::Base
     p filename
     p caption
     f = File.open("#{filename}")
-    data = f.read
-    p data
-    #p Twitter.update_with_media(caption, data)
+    #data = f.read
+    #p data
+    p Twitter.update_with_media(caption, f)
   end
 end
