@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require 'json'
-require 'init'
+require './init'
 
 class App < Sinatra::Base
   get '/' do
