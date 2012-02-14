@@ -1,6 +1,6 @@
 .bundle 
 twitter.yml
-uploads/*.jpg
+tmp/*.jpg
 */*.swp
 */*.swo
 

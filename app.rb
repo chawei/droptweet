@@ -3,6 +3,8 @@ require 'json'
 require './init'
 
 class App < Sinatra::Base
+  set :root, File.dirname(__FILE__)
+
   get '/' do
     erb :index
   end
@@ -14,7 +16,8 @@ class App < Sinatra::Base
 
     timestamp = Time.now.to_i
     filename  = "#{timestamp}-#{params["tweet_file"][:filename]}"
-    File.open("#{RAILS_ROOT}/tmp/#{filename}", "w") do |f|
+    p "root: #{settings.root}"
+    File.open("#{settings.root}/tmp/#{filename}", "w") do |f|
       f.write(data)
     end
 
@@ -30,7 +33,7 @@ class App < Sinatra::Base
 
     p filename
     p caption
-    f = File.open("#{RAILS_ROOT}/tmp/#{filename}")
+    f = File.open("#{settings.root}/tmp/#{filename}")
     data = f.read
     p Twitter.update_with_media(caption, data)
   end
