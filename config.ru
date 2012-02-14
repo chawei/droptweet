@@ -2,7 +2,7 @@ require 'rubygems'
 require 'bundler'
 Bundler.setup
 
-require 'app'
+require './app'
 
 use Rack::Static, :urls => ['/css', '/javascripts'], :root => 'public'
 
