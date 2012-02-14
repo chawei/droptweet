@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-type">
+    <title>Drag &amp; Drop Tacos</title>
+    <link rel="stylesheet" href="/css/master.css" type="text/css" media="screen" title="no title">
+  </head>
+  
+  <body>
+    <div class="cf">
+      <div id="drop_target">
+        <div id="dropped_image"></div>
+        <div id="progress_bar"></div>
+      </div>
+    </div>
+    
+    <script src="/javascripts/jquery-1.4.3.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.dnduploader.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+      $("#drop_target").dndUploader({
+        url : "/",
+        method : "PUT"
+      });
+    </script>
+  </body>
+</html>
