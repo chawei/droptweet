@@ -23,10 +23,13 @@ class App < Sinatra::Base
     p "path: #{filename}"
     p "caption: #{caption}"
     f = File.open("#{filename}")
+
+    content_type :json
     begin
-      p Twitter.update_with_media(caption, f)
+      res = Twitter.update_with_media(caption, f)
+      { :status => 'ok', :res => res }.to_json
     rescue => e
-      p e
+      { :status => 'fail', :res => e }.to_json
     end
   end
 end

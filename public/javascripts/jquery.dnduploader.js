@@ -11,12 +11,29 @@
         caption: $('#tweet_caption').val()
       },
       success: function(data) {
-        console.log("upload successfully");
+        if (data.status == 'ok') {
+          $('#msg_box').html("Upload successfully");
+        } else {
+          console.log("fail");
+          $('#msg_box').html(data.res);
+        }
+        util.resetTweetForm();
       }
     });
   });
 
   var util = {
+    resetTweetForm : function() {
+      $('.caption_container').fadeOut(function() {
+        $('#temp_filename').val('');
+        $('#tweet_caption').val('');
+      });
+      $('#dropped_image img').fadeOut(function() {
+        $(this).remove();
+        $('#drop_target').css('border', '1px solid #ccc');
+      });
+      setTimeout(function() { $('#msg_box').empty() }, 5000);
+    },
     readAndRender : function(file) {
       if (file.type.match('image.*')) {
         var reader = new FileReader();
@@ -39,7 +56,6 @@
             };
             img.src = $('#dropped_image img.thumb').attr('src');
             
-            //var xhr = new XMLHttpRequest();
             var xhr = jQuery.ajaxSettings.xhr();
             var upload = xhr.upload;
           
@@ -47,7 +63,6 @@
                 if (e.total && e.loaded) {
                   var proportion = e.loaded / e.total;
                   var width      = 400 - Math.round(proportion * 400);
-                  console.log('width: ' + width);
                   $('#progress_bar').animate(
                     {width: width + 'px'}, 500, function() {
                       if (width == 0) {
@@ -60,17 +75,7 @@
             var provider = function () {
               return xhr;
             };
-            /* 
-            xhr.open('PUT', '/', true);
-            xhr.setRequestHeader('X-Filename', file.fileName);
-            xhr.send(file);
-
-            xhr.onreadystatechange = function() {
-              if (xhr.readyState === 4) {
-                console.log("success");
-              }
-            };
-            */
+            
             var fd = new FormData();
             fd.append('tweet_file', file);
             fd.append('tweet_caption', "drop tweet");
@@ -89,14 +94,6 @@
                 // ...
               }, 
               data: fd
-              /*
-              data: {
-                name: file.name,
-                size: file.size,
-                type: file.type,
-                data: data 
-              } 
-              */
             });
           }
         };

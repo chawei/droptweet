@@ -36,9 +36,15 @@
 #tweet_caption {
   width: 200px;
   border: 1px solid #ccc;
+  outline: none;
   padding: 5px 5px;
   font-size: 13px;
   opacity: 0.85;
+}
+
+#msg_box {
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
 }
 
 .cf:after {
