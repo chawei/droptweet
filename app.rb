@@ -23,6 +23,10 @@ class App < Sinatra::Base
     p "path: #{filename}"
     p "caption: #{caption}"
     f = File.open("#{filename}")
-    p Twitter.update_with_media(caption, f)
+    begin
+      p Twitter.update_with_media(caption, f)
+    rescue => e
+      p e
+    end
   end
 end

@@ -48,10 +48,12 @@
                   var proportion = e.loaded / e.total;
                   var width      = 400 - Math.round(proportion * 400);
                   console.log('width: ' + width);
-                  $('#progress_bar').animate({width: width + 'px'});
-                  if (width == 0) {
-                    $('.caption_container').delay(500).fadeIn();
-                  }
+                  $('#progress_bar').animate(
+                    {width: width + 'px'}, 500, function() {
+                      if (width == 0) {
+                        $('.caption_container').delay(500).fadeIn();
+                      }
+                  });
                 }
               }, false);
             
