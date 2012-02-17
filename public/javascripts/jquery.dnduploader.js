@@ -1,4 +1,8 @@
 (function( $ ){
+  if (document.images) {
+    var img = new Image();
+    img.src = "../images/success.png";
+  }
 
   $("#send_btn").click(function(){
     console.log($('#temp_filename').val());
