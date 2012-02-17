@@ -34,7 +34,6 @@
     },
 
     showSuccessPage : function() {
-      var originTop = $('#success_section').css('top');
       $('#success_section').fadeIn(); 
       $('#logo').fadeOut();
     },
@@ -114,9 +113,8 @@
       }
     },
 
-    hideStep1 : function() {
-      $('#drag_n_drop_text').hide();
-      $('#drop_target').hide();
+    hideDropSection : function() {
+      $('#drop_section').hide();
     }
   }
 
@@ -161,7 +159,7 @@
       
       if (dataTransfer.files.length > 0) {
         $.each(dataTransfer.files, function ( i, file ) {
-          util.hideStep1();
+          util.hideDropSection();
           util.readAndRender(file);
         });
       };
