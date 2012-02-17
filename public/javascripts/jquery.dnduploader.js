@@ -18,13 +18,14 @@
       success: function(data) {
         if (data.status == 'ok') {
           //$('#msg_box').html("Upload successfully");
+          console.log(data.res.id);
         } else {
           console.log("fail");
           //$('#msg_box').html(data.res);
         }
         util.resetTweetForm();
-        util.showSuccessPage();
         util.hideLoading();
+        util.showSuccessPage();
       }
     });
   });
@@ -51,8 +52,8 @@
     },
 
     showSuccessPage : function() {
-      $('#success_section').fadeIn(); 
       $('#logo').fadeOut();
+      $('#success_section').fadeIn(); 
     },
     
     hideSuccessPage : function() {
