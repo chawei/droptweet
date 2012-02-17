@@ -7,6 +7,12 @@ body {
   background-color: #FF765F;
 }
 
+#logo_container {
+  width: 162px;
+  margin: auto;
+  position: relative;
+}
+
 #logo {
   text-indent: -2000px;
   background: url(../images/logo.png) no-repeat;

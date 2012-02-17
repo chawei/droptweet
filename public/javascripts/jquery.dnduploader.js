@@ -3,6 +3,7 @@
   $("#send_btn").click(function(){
     console.log($('#temp_filename').val());
     console.log($('#tweet_caption').val());
+    util.showLoading();
     $.ajax({
       url: '/droptweet',
       type: 'POST',
@@ -18,11 +19,23 @@
           //$('#msg_box').html(data.res);
         }
         util.resetTweetForm();
+        util.hideLoading();
       }
     });
   });
 
   var util = {
+    showLoading : function() {
+      $('#logo').effect("bounce", { times: 3 }, 300);
+      window.loadingInt = setInterval(function() {$('#logo').effect("bounce", { times: 3 }, 300)}, 1500);
+      $('#tweet_interface').animate({opacity: 0.4});
+    },
+
+    hideLoading : function() {
+      clearInterval(window.loadingInt);
+      $('#tweet_interface').css('opacity', 1);
+    },
+
     resetTweetForm : function() {
       $('#tweet_interface').fadeOut(function() {
         $('#dropped_image img').remove();
