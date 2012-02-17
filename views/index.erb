@@ -8,14 +8,23 @@
   
   <body>
     <div id="tweet_container" class="cf">
-      <div class="caption_container hidden">
-        <input id="temp_filename" type="hidden">
-        <input id="tweet_caption" type="text">
-        <button id="send_btn" type="button">Tweet</button>
+      <h1 id="logo">Tweet Drop</h1>
+      <div id="drop_target"></div>
+      <div id="drag_n_drop_text"></div>
+      <div id="success_section" class="hidden">
+        <div class="success_image"></div>
+        <div class="success_msg"></div>
       </div>
-      <div id="drop_target">
-        <div id="dropped_image"></div>
-        <div id="progress_bar"></div>
+      <div id="tweet_interface">
+        <div id="dropped_image_container" class="cf">
+          <div id="dropped_image"></div>
+          <div id="progress_bar"></div>
+        </div>
+        <div class="caption_container hidden">
+          <input id="temp_filename" type="hidden">
+          <input id="tweet_caption" type="text" placeholder="Add a caption">
+          <button id="send_btn" type="button">Tweet</button>
+        </div>
       </div>
       <div id="msg_box">
       </div>
