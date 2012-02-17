@@ -78,7 +78,6 @@
             
             var fd = new FormData();
             fd.append('tweet_file', file);
-            fd.append('tweet_caption', "drop tweet");
             
             $.ajax({
               type: 'PUT',
@@ -91,7 +90,7 @@
                 $('#temp_filename').val(data.temp_filename);
               },  
               error: function () {
-                // ...
+                console.log("error when uploading the image.");
               }, 
               data: fd
             });
