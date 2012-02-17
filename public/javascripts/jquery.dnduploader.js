@@ -18,7 +18,7 @@
       success: function(data) {
         if (data.status == 'ok') {
           //$('#msg_box').html("Upload successfully");
-          console.log(data.res.id);
+          console.log(data.res);
         } else {
           console.log("fail");
           //$('#msg_box').html(data.res);
@@ -52,7 +52,7 @@
     },
 
     showSuccessPage : function() {
-      $('#logo').fadeOut();
+      $('#logo').hide();
       $('#success_section').fadeIn(); 
     },
     

@@ -27,7 +27,7 @@ class App < Sinatra::Base
     content_type :json
     begin
       res = Twitter.update_with_media(caption, f)
-      { :status => 'ok', :res => res }.to_json
+      { :status => 'ok', :res => res.id }.to_json
       #{ :status => 'ok', :res => "Test" }.to_json
     #rescue => e
     #  { :status => 'fail', :res => e }.to_json
