@@ -28,7 +28,7 @@
     showLoading : function() {
       $('#logo').effect("bounce", { times: 3 }, 300);
       window.loadingInt = setInterval(function() {$('#logo').effect("bounce", { times: 3 }, 300)}, 1500);
-      $('#tweet_interface').animate({opacity: 0.4});
+      $('#tweet_interface').animate({opacity: 0.5});
     },
 
     hideLoading : function() {
