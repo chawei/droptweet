@@ -23,6 +23,7 @@
           //$('#msg_box').html(data.res);
         }
         util.resetTweetForm();
+        util.showSuccessPage();
         util.hideLoading();
       }
     });
@@ -45,7 +46,6 @@
         $('#dropped_image img').remove();
         $('#temp_filename').val('');
         $('#tweet_caption').val('');
-        util.showSuccessPage();
       });
       //setTimeout(function() { $('#msg_box').empty() }, 5000);
     },
