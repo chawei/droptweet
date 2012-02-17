@@ -131,6 +131,9 @@ body {
   width: 437px;
   height: 26px;
   margin: 20px auto;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 #msg_box {
