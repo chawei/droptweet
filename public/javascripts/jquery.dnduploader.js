@@ -17,12 +17,10 @@
       },
       success: function(data) {
         if (data.status == 'ok') {
-          //$('#msg_box').html("Upload successfully");
           console.log(data.res);
           $(".success_msg").attr("href", "https://twitter.com/#!/droptweett/status/"+ data.res);
         } else {
           console.log("fail");
-          //$('#msg_box').html(data.res);
         }
         util.resetTweetForm();
         util.hideLoading();
