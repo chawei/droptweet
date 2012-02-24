@@ -30,6 +30,8 @@
   });
 
   var util = {
+    progressWidth : 500,
+
     showLoading : function() {
       $('#logo').effect("bounce", { times: 3 }, 300);
       window.loadingInt = setInterval(function() {$('#logo').effect("bounce", { times: 3 }, 300)}, 1500);
@@ -78,55 +80,65 @@
           var progressWidth = 500;
 
           if (evt.target.readyState == FileReader.DONE) { // DONE == 2
-            var img = new Image();
-            img.onload = function() { 
-              var h = Math.round(progressWidth * img.height / img.width);  
-              $('#progress_bar').css({width: progressWidth + 'px', height: h+'px'});
-            };
-            img.src = $('#dropped_image img.thumb').attr('src');
-            
+            util.initialProgressBar();
+
             var xhr = jQuery.ajaxSettings.xhr();
             var upload = xhr.upload;
-          
-            xhr.upload.addEventListener('progress', function (e) {
-                if (e.total && e.loaded) {
-                  var proportion = e.loaded / e.total;
-                  var width      = progressWidth - Math.round(proportion * progressWidth);
-                  $('#progress_bar').animate(
-                    {width: width + 'px'}, 500, function() {
-                      if (width == 0) {
-                        $('.caption_container').delay(500).fadeIn();
-                      }
-                  });
-                }
-              }, false);
-            
-            var provider = function () {
-              return xhr;
-            };
-            
-            var fd = new FormData();
-            fd.append('tweet_file', file);
-            
-            $.ajax({
-              type: 'PUT',
-              url: '/',
-              xhr: provider,
-              cache: false,
-              contentType: false,
-              processData: false,
-              success: function (data) {
-                $('#temp_filename').val(data.temp_filename);
-              },  
-              error: function () {
-                console.log("error when uploading the image.");
-              }, 
-              data: fd
-            });
+            xhr.upload.addEventListener('progress', function(e) {util.updateProgressBar(e)}, false);
+            util.uploadImage(xhr, file);
           }
         };
 
         reader.readAsDataURL(file);
+      }
+    },
+    
+    uploadImage : function(xhr, file) {
+      var provider = function () {
+        return xhr;
+      };
+      
+      var fd = new FormData();
+      fd.append('tweet_file', file);
+      
+      $.ajax({
+        type: 'PUT',
+        url: '/',
+        xhr: provider,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+          $('#temp_filename').val(data.temp_filename);
+        },  
+        error: function () {
+          console.log("error when uploading the image.");
+        }, 
+        data: fd
+      });
+    },
+
+    initialProgressBar : function() {
+      var img = new Image();
+      img.src = $('#dropped_image img.thumb').attr('src');
+      img.onload = function() { 
+        var h = Math.round(util.progressWidth * img.height / img.width);  
+        $('#progress_bar').css({width: util.progressWidth + 'px', height: h+'px'});
+      };
+    },
+    
+    updateProgressBar : function(e) {
+      var progressWidth = util.progressWidth;
+
+      if (e.total && e.loaded) {
+        var proportion = e.loaded / e.total;
+        var width      = progressWidth - Math.round(proportion * progressWidth);
+        $('#progress_bar').animate(
+          {width: width + 'px'}, 500, function() {
+            if (width == 0) {
+              $('.caption_container').delay(500).fadeIn();
+            }
+        });
       }
     },
 
